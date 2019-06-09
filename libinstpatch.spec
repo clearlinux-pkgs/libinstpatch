@@ -4,12 +4,13 @@
 #
 Name     : libinstpatch
 Version  : ff75961f1f489cbb05ab3e5f6737ace06c669e4a
-Release  : 1
+Release  : 2
 URL      : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Source0  : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Summary  : Instrument patch library
 Group    : Development/Tools
 License  : LGPL-2.1
+Requires: libinstpatch-lib = %{version}-%{release}
 Requires: libinstpatch-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-gnome
@@ -31,12 +32,22 @@ an object framework (based on GObject) to load patch files into, which can then 
 %package dev
 Summary: dev components for the libinstpatch package.
 Group: Development
+Requires: libinstpatch-lib = %{version}-%{release}
 Provides: libinstpatch-devel = %{version}-%{release}
 Requires: libinstpatch = %{version}-%{release}
 Requires: libinstpatch = %{version}-%{release}
 
 %description dev
 dev components for the libinstpatch package.
+
+
+%package lib
+Summary: lib components for the libinstpatch package.
+Group: Libraries
+Requires: libinstpatch-license = %{version}-%{release}
+
+%description lib
+lib components for the libinstpatch package.
 
 
 %package license
@@ -56,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1560107285
+export SOURCE_DATE_EPOCH=1560107889
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -fno-lto "
@@ -68,20 +79,19 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1560107285
+export SOURCE_DATE_EPOCH=1560107889
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libinstpatch
 cp COPYING %{buildroot}/usr/share/package-licenses/libinstpatch/COPYING
 pushd clr-build
 %make_install
 popd
+## install_append content
+mv %{buildroot}/usr/lib6464 %{buildroot}/usr/lib64
+## install_append end
 
 %files
 %defattr(-,root,root,-)
-/usr/lib6464/libinstpatch.so
-/usr/lib6464/libinstpatch.so.0
-/usr/lib6464/libinstpatch.so.0.1.0
-/usr/lib6464/pkgconfig/libinstpatch.pc
 
 %files dev
 %defattr(-,root,root,-)
@@ -179,6 +189,13 @@ popd
 /usr/include/libinstpatch-0/libinstpatch/sample.h
 /usr/include/libinstpatch-0/libinstpatch/util.h
 /usr/include/libinstpatch-0/libinstpatch/version.h
+/usr/lib64/libinstpatch.so
+/usr/lib64/pkgconfig/libinstpatch.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libinstpatch.so.0
+/usr/lib64/libinstpatch.so.0.1.0
 
 %files license
 %defattr(0644,root,root,0755)

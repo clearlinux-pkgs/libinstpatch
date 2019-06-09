@@ -4,7 +4,7 @@
 #
 Name     : libinstpatch
 Version  : ff75961f1f489cbb05ab3e5f6737ace06c669e4a
-Release  : 2
+Release  : 3
 URL      : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Source0  : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Summary  : Instrument patch library
@@ -67,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1560107889
+export SOURCE_DATE_EPOCH=1560113368
 mkdir -p clr-build
 pushd clr-build
 export CFLAGS="$CFLAGS -fno-lto "
@@ -79,7 +79,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1560107889
+export SOURCE_DATE_EPOCH=1560113368
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libinstpatch
 cp COPYING %{buildroot}/usr/share/package-licenses/libinstpatch/COPYING
@@ -88,6 +88,7 @@ pushd clr-build
 popd
 ## install_append content
 mv %{buildroot}/usr/lib6464 %{buildroot}/usr/lib64
+cp %{buildroot}/usr/lib64/pkgconfig/libinstpatch.pc %{buildroot}/usr/lib64/pkgconfig/libinstpatch-1.0.pc
 ## install_append end
 
 %files
@@ -190,6 +191,7 @@ mv %{buildroot}/usr/lib6464 %{buildroot}/usr/lib64
 /usr/include/libinstpatch-0/libinstpatch/util.h
 /usr/include/libinstpatch-0/libinstpatch/version.h
 /usr/lib64/libinstpatch.so
+/usr/lib64/pkgconfig/libinstpatch-1.0.pc
 /usr/lib64/pkgconfig/libinstpatch.pc
 
 %files lib

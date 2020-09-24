@@ -4,7 +4,7 @@
 #
 Name     : libinstpatch
 Version  : ff75961f1f489cbb05ab3e5f6737ace06c669e4a
-Release  : 3
+Release  : 4
 URL      : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Source0  : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Summary  : Instrument patch library

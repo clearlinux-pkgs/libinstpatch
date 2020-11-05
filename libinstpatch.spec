@@ -4,16 +4,17 @@
 #
 Name     : libinstpatch
 Version  : ff75961f1f489cbb05ab3e5f6737ace06c669e4a
-Release  : 4
+Release  : 5
 URL      : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
 Source0  : https://github.com/swami/libinstpatch/archive/ff75961f1f489cbb05ab3e5f6737ace06c669e4a.tar.gz
-Summary  : Instrument patch library
+Summary  : MIDI instrument patch library
 Group    : Development/Tools
 License  : LGPL-2.1
 Requires: libinstpatch-lib = %{version}-%{release}
 Requires: libinstpatch-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-gnome
+BuildRequires : gtk-doc-data
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
@@ -34,7 +35,6 @@ Summary: dev components for the libinstpatch package.
 Group: Development
 Requires: libinstpatch-lib = %{version}-%{release}
 Provides: libinstpatch-devel = %{version}-%{release}
-Requires: libinstpatch = %{version}-%{release}
 Requires: libinstpatch = %{version}-%{release}
 
 %description dev
@@ -60,29 +60,31 @@ license components for the libinstpatch package.
 
 %prep
 %setup -q -n libinstpatch-ff75961f1f489cbb05ab3e5f6737ace06c669e4a
+cd %{_builddir}/libinstpatch-ff75961f1f489cbb05ab3e5f6737ace06c669e4a
 %patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1560113368
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604611449
 mkdir -p clr-build
 pushd clr-build
+export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DINTROSPECTION_ENABLED=off
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1560113368
+export SOURCE_DATE_EPOCH=1604611449
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libinstpatch
-cp COPYING %{buildroot}/usr/share/package-licenses/libinstpatch/COPYING
+cp %{_builddir}/libinstpatch-ff75961f1f489cbb05ab3e5f6737ace06c669e4a/COPYING %{buildroot}/usr/share/package-licenses/libinstpatch/f60d5e99b856192e9f4e1451e4bf17721c0df40c
 pushd clr-build
 %make_install
 popd
@@ -201,4 +203,4 @@ cp %{buildroot}/usr/lib64/pkgconfig/libinstpatch.pc %{buildroot}/usr/lib64/pkgco
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libinstpatch/COPYING
+/usr/share/package-licenses/libinstpatch/f60d5e99b856192e9f4e1451e4bf17721c0df40c
